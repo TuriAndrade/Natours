@@ -1,0 +1,38 @@
+.background-video{
+    overflow: hidden; //not necessary with the object fit, but just in case
+    opacity: .2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; //as the background of the section is transparent, it works
+
+    &__content{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: left top;
+    }
+}
+
+/*
+    Replaced elements: html elements that are out of the scope of css and can't be styled by normal means,
+    such as <img>, <video>, <iframe> and <embed>
+
+    object-fit:
+
+        The object-fit CSS property sets how the content of a replaced element should be resized to fit 
+        its container.
+
+        The &__content, for example, is resized. With the width set to 100%, as it is more wide then high,
+        it wouldn't cover the container. But it is resized to do so.
+
+        It only works if the elemento to which it applies has defined dimensions
+
+    object-position:
+        The object-position CSS property specifies the alignment of the selected replaced element's 
+        contents within the element's box.
+
+        It's like background-position, but for replaced elements
+*/

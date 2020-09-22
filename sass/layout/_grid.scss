@@ -1,0 +1,159 @@
+/*
+    OBS:flex-basis defines the width if the flex direction is row and height if its column, 
+    so it doesn't work very well with flex direction column if the parent of the column has 
+    no defined height.
+
+    OBS: in order to use justify-content and align-items on a flex element whith values different 
+    from the default, they have to have, respectvely, a width and a height(it's the other way around
+    if the flex-direction is column). Otherwise, it won't work properly.
+*/
+
+.row {
+    display: flex;
+    margin: 0 auto; //centers horizontally elements that have specified width, as block elements. Margin:auto also works, but the element has to have a height
+    max-width: $grid-width;
+    width: 100%; 
+
+    @include respond(tab-port){
+        max-width: $grid-width-small;
+        flex-direction: column;
+    }
+
+    &:not(:last-child){
+        margin-bottom: $gutter-vertical;
+
+        @include respond(tab-port){
+            margin-bottom: $gutter-vertical-small;
+        }
+    }
+}
+
+.row-fluid {
+    width: 100%;
+    display: flex;
+    margin: 0 auto;
+
+    @include respond(tab-port){
+        flex-direction: column;
+    }
+
+    &:not(:last-child){
+        margin-bottom: $gutter-vertical;
+
+        @include respond(tab-port){
+            margin-bottom: $gutter-vertical-small;
+        }
+    }
+}
+
+/*
+
+    It's important to set the width of the .row and .row-fluid to 100% because, even though block elements have 
+    default width of 100%, if these classes are DIRECT children of flex elements, their width, if not set, will adjust 
+    to the content.
+
+*/
+
+.col {
+    flex-grow: 0;
+    flex-shrink: 1;
+
+    &:not(:last-child) {
+        margin-right: $gutter-horizontal;
+
+        @include respond(tab-port){
+            margin-bottom: $gutter-vertical-small;
+            margin-right: 0;
+        }
+    }
+
+    @include respond(tab-port){
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+.col-100 {
+    width: 100%;
+    max-width: 100%;
+}
+
+.col-40{
+    width: calc(2*(100% - #{$gutter-horizontal})/5);
+    max-width: calc(2*(100% - #{$gutter-horizontal})/5);
+}
+
+.col-60{
+    width: calc(3*(100% - #{$gutter-horizontal})/5);
+    max-width: calc(3*(100% - #{$gutter-horizontal})/5);
+}
+
+.col-50 {
+    width: calc((100% - #{$gutter-horizontal})/2);
+    max-width: calc((100% - #{$gutter-horizontal})/2);
+}
+
+.col-33 {
+    width: calc((100% - 2 * #{$gutter-horizontal})/3);
+    max-width: calc((100% - 2 * #{$gutter-horizontal})/3);
+}
+
+.col-25 {
+    width: calc((100% - 3 * #{$gutter-horizontal})/4);
+    max-width: calc((100% - 3 * #{$gutter-horizontal})/4);
+}
+
+.col-66 {
+    width: calc((100% - 2 * #{$gutter-horizontal})/3*2 + #{$gutter-horizontal});
+    max-width: calc((100% - 2 * #{$gutter-horizontal})/3*2 + #{$gutter-horizontal});
+}
+
+.col-75 {
+    width: calc((100% - 3 * #{$gutter-horizontal})/4*3 + 2 * #{$gutter-horizontal});
+    max-width: calc((100% - 3 * #{$gutter-horizontal})/4*3 + 2 * #{$gutter-horizontal});
+}
+
+/*
+.row{
+    max-width: $grid-width;
+    margin: 0 auto; //centers block elements
+
+    @include clearfix;
+    
+    &:not(:last-child){ //selects every .row excepts the last-child .row of their parent
+        margin-bottom: $gutter-vertical;
+    }
+
+    [class^='col-']{ // selects all the elements that the class attribute (^= starts, *= contains, = is, $= ends) with 'col-'
+        float:left;
+
+        &:not(:last-child){
+            margin-right: $gutter-horizontal;
+        }
+    }
+
+    .col-1-of-2{
+        width: calc((100% - #{$gutter-horizontal})/2);
+    }
+
+    .col-1-of-3{
+        width: calc((100% - 2 * #{$gutter-horizontal})/3);
+    }
+
+    .col-1-of-4{
+        width: calc((100% - 3 * #{$gutter-horizontal})/4);
+    }
+
+    .col-2-of-3{
+        width: calc((100% - 2 * #{$gutter-horizontal})/3*2 + #{$gutter-horizontal});
+    }
+
+    .col-2-of-4{
+        width: calc((100% - 3 * #{$gutter-horizontal})/4*2 + #{$gutter-horizontal});
+    }
+
+    .col-3-of-4{
+        width: calc((100% - 3 * #{$gutter-horizontal})/4*3 + 2 * #{$gutter-horizontal});
+    }
+}
+*/

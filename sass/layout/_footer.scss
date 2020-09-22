@@ -1,0 +1,71 @@
+.footer{
+    background-color: $color-grey-dark-2;
+    padding: 10rem 4rem;
+    font-size: $default-font-size;
+    color: $color-grey-light-1;
+
+    @include respond(tab-port){
+        padding:8rem 3rem;
+    }
+
+    &__logo-box{
+        text-align: center;
+    }
+
+    &__logo{
+        width: 15rem;
+        //height is auto by default when you set the width
+    }
+
+    &__navigation,
+    &__copyright{
+        display: inline-block; //inline-block doesn't occupy all the space avaliable, only fits the content
+        border-top: 1px solid $color-grey-light-1;
+        padding-top: 2rem;
+
+        @include respond(tab-port){
+            width: 100%;
+        }
+    }
+
+    &__list{
+        text-align: center; 
+
+        /*
+            Aligning text items as the links in this list with flex aligns does't work out properly, 
+            because tex-links dont have defined dimesions and, as they can't go to the line below
+            because of the flex direction, they end up overlapping the edge of their container
+
+            Text align in this cases works just fine
+        */
+
+        list-style: none;
+    }
+
+    &__item{
+        display: inline-block;
+        text-align: center;
+
+        &:not(:last-child){
+            margin-right: 1.5rem;
+        } // :last-child represents an element that is the las child of it's parent element
+    }
+
+    &__link{
+        &:link,
+        &:visited{
+            color: $color-grey-light-1;
+            display: inline-block; //inline (default for <a>) is not good for transformations
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: all .1s;
+            background-color: $color-grey-dark-2;
+        }
+
+        &:hover{
+            color: $color-primary;
+            box-shadow: 0 1rem 2rem rgba($color-black, .3);
+            transform: skewY(4deg) scale(1.1);
+        }
+    }
+}

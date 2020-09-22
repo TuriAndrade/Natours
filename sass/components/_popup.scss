@@ -1,0 +1,136 @@
+.popup{
+    height: 100vh;
+    width: 100%; //com position fixed é necessário definir a width mesmo que o elemento seja block
+    z-index: 500;
+    padding: 0 4rem;
+    background-color: rgba($color-black, .8);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all .5s;
+    opacity: 0;
+    visibility: hidden;
+
+    &:target{ //it's fired when the url changes to it's id
+        visibility: visible;
+        opacity: 1;
+    }
+
+    &__close-area{
+        height: 100%;
+        width: 100%;
+        cursor: pointer;
+        z-index: 600;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    &__close-btn{
+        &:link,
+        &:visited{
+            font-size: 2.7rem;
+            text-decoration: none;
+            color: $color-grey-dark;
+            position: absolute;
+            top: 2rem;
+            right: 3rem;
+            display: inline-block; //when <a> is a button. inline-block or block is always better than inline (the default)
+            transition: all .4s;
+        }
+
+        &:hover{
+            color: $color-primary;
+        }
+    }
+
+    &__content{
+        position: relative;
+        z-index: 700;
+        background-color: $color-white;
+        width: 100%;
+        max-width: 900px;
+        max-height: 80%;
+        overflow-y: auto;
+        border-radius: 2px;
+        transform: scale(.3);
+        opacity: 0;
+        transition: all .3s .2s; //the third is the delay
+    }
+
+    &:target &__content{
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    /*
+        Definir min-height para o container em vez de height para ele se adaptar às dimensões
+        de seu content não funciona por causa do fixed position.
+
+        Scrolling não funciona com fixed containers, então adicionei ao seu filho.
+    */
+
+    &__right{
+        padding: 2rem;
+    }
+
+    &__img{
+        width: 100%;
+        height: 50%;
+        object-fit: cover; //doesn't distort the image, only expands it to fit the specified dimensions and cuts out what is overlapping
+        display: block;
+        border-radius: 2px;
+
+        /*
+            Sometimes the images overlaps the border-radius of their container.
+            To fix that, you can set the same border-radius to the images or
+            the the overflow of the container to hidden. In this case, only the
+            first option is viable.
+        */
+
+
+        /*
+            The default display of imgs is inline, and inline elements have vertical-alignment
+            (how elements are set next to each other. Can be top, bottom, etc)
+
+            The default value of the vertical-align creates a space between the images.
+            It can be solved with bertical-align:bottom or display:block (block elements don't
+            have this problem).
+        */
+    }
+
+    &__text{
+        font-size: 1.4rem;
+
+        -moz-column-count: 2;
+        -moz-column-gap: 4rem;
+        -moz-column-rule: 1px solid $color-grey-light-2;
+
+        column-count: 2; //divides the text in columns
+        column-gap: 4rem;
+        column-rule: 1px solid $color-grey-light-2; //like a border separating columns
+
+        -moz-hyphens: auto;
+        -ms-hyphens: auto;
+        -webkit-hyphens: auto;
+        hyphens: auto; //breaks words and adds hyphens when necessary
+
+        //OBS: You have to specify the language of the html for hyphens to work
+        //Ex: <html lang="en">
+    }
+}
+
+/*
+    OBS: Children of a flex parent, as the cols that a children of the row, have, by default,
+    align-items set to stretch. That means they occupy all the space availiable.
+
+    If flexbox is not being used, it's possible to do that using display table.
+
+    You set the parent's display to table and the children's to table-cell.
+
+    They'll get side by side and have 100% of the parent's height. Besides that, it's posisble
+    to align them with vertical-align
+*/

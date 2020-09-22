@@ -1,0 +1,93 @@
+body{
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    color: $color-grey-dark;
+}
+
+.heading-primary{
+    color: $color-white;
+    text-transform: uppercase;
+    backface-visibility: hidden;/* conserta a tremida da animação. Ninguém sabe porque isso funciona */ 
+    margin-bottom: 6rem;
+
+    &--main{
+        display: block;
+        font-size: 6rem;
+        font-weight: 400;
+        letter-spacing: 3.5rem;
+        animation-name: moveInLeft;
+        animation-duration: 1s;
+        animation-timing-function: ease-out; /* distribuição de velocidade */
+        /*
+        animation-delay: 3s; //delay
+        animation-iteration-count: infinite; //número de repetições
+        */
+
+        @include respond(phone){
+            font-size: 5rem;
+            letter-spacing: 1rem;
+        }
+    
+    }
+    
+    &--sub{
+        display: block;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: 1.75rem;
+        animation: moveInRight 1s ease-out; /* shortcut */
+        /*
+        animation-delay: 3s; //delay
+        animation-iteration-count: infinite; //número de repetições
+        */
+
+        @include respond(phone){
+            letter-spacing: .5rem;
+        }
+    }
+}
+
+.heading-secondary{
+    font-size: 3.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    background-image: linear-gradient(to right, $color-primary-light, $color-primary-dark);
+    display: inline-block; //its container is a block element, therefore occupies all the width avaliable, wich is 100%. This way, 'text-align:center' aligns inline ad inline-block elements on the center of their containers.
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    letter-spacing: 2px;
+    transition:all .2s;
+
+    @include respond(tab-port){
+        font-size: 3rem;
+    }
+
+    @include respond(phone){
+        font-size: 2.5rem;
+    }
+
+    &:hover{
+        transform: skewX(15deg) skewY(2deg) scale(1.1);
+        text-shadow: .5rem 1rem 2rem rgba($color-black,.2);
+    }
+}
+
+.heading-tertiary{
+    font-weight: 700;
+    font-size: $default-font-size;
+    text-transform: uppercase;
+}
+
+.paragraph{
+    font-size: $default-font-size;
+
+    &:not(:last-child){
+        margin-bottom: 3rem;
+    }
+}
+
+input,button,textarea,a{
+    font-family: inherit; //doesn't inherit automatically
+}

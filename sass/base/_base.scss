@@ -1,0 +1,45 @@
+html{
+    font-size: 62.5%; //1rem = 10px (the default font size of the brpwser is 16px)
+
+    @include respond(tab-land){
+        font-size: 56.25%; //1rem = 9px
+    }
+
+    @include respond(tab-port){
+        font-size: 50%; //1rem = 8px
+    }
+    
+    /*
+        @include respond(phone){
+            font-size: 50%; 
+        }
+
+        It's not necessary to define the phone font-size, because it should be the same as the tab-port
+    */
+
+    @include respond(big-desktop){ //this is a min-width query, so it comes in the end
+        font-size: 75%; //1rem = 12px
+    }
+}
+
+input,button,textarea,a{
+    border: 0;
+    outline: 0;
+    box-sizing: border-box; //don't inherit box sizing for some reason
+}
+
+body{
+    box-sizing: border-box;
+    padding: 3rem;
+
+    @include respond(tab-port){
+        padding: 0;
+    }
+}
+
+*, *::after, *::before{
+    outline: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}

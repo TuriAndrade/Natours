@@ -1,0 +1,61 @@
+.story{
+    margin: 0 auto; //only works because the element has a defined width, as it is a block element
+    width: 75%;
+    padding: 6rem 6rem 6rem 9rem; //we added 3 more rem to the left because of the floated shape transformation
+    background-color: rgba($color-white,.6);
+    border-radius: 3px;
+    box-shadow: 0 1.5rem 4rem rgba($color-black, .15);
+    font-size: $default-font-size;
+    transform: skew(-12deg);
+    @include clearfix;
+
+    & > * { // > * selects direct, while only * selects all the children
+        transform: skew(12deg); 
+    }
+
+    &:hover &__caption{
+        transform: translate(-50%,-50%);
+        opacity: 1;
+    }
+
+    &:hover &__img{
+        transform: translateX(-15%) scale(1);
+        filter: blur(3px) brightness(80%);
+    }
+
+    &__shape{
+        //this transform overrides the one applying to all children of the story,so we have to add it again
+        transform: translateX(-3rem) skew(12deg); // margins and paddings dont work properly with floated elements, so we transform it and increase the padding of the container according to the transformation
+        width: 15rem;
+        height: 15rem;
+        background-color: orangered;
+        float: left;
+        -webkit-shape-outside: circle(50% at 50% 50%);
+        shape-outside: circle(50% at 50% 50%); //defines how the text will wrap around the image. It only works with floated elements that have a height and a width defined
+        -webkit-clip-path: circle(50% at 50% 50%);
+        clip-path: circle(50% at 50% 50%);
+        position: relative;
+        overflow:hidden; //Fix the bug of the image borders appearing when it blurs
+    } 
+
+    &__img{ //we just pick a big image and shape its container, then we define its width or height as 100%, depending on its original dimensions
+        height: 100%;
+        transform: translateX(-15%) scale(1.4); //just centering the image a bit
+        transition: all .5s linear;
+        backface-visibility: hidden; //OBS: I think the browsers solved the animation and transition problems, but if something strange happens, usually backface visibility:hidden fixes it
+    }
+
+    &__caption{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        opacity: 0;
+        transform: translate(-50%, 20%);
+        font-size: $default-font-size;
+        text-transform: uppercase;
+        color: white;
+        text-align: center;
+        transition: all .5s linear;
+        backface-visibility: hidden; //hack to fix the animation shaking. Nobody knows why it works.
+    }
+}

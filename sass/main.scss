@@ -1,0 +1,28 @@
+@import "abstracts/functions";
+@import "abstracts/mixins";
+@import "abstracts/variables";
+
+@import "base/animations";
+@import "base/base";
+@import "base/typography";
+@import "base/utilities";
+
+@import "components/background-video";
+@import "components/button";
+@import "components/card";
+@import "components/composition";
+@import "components/feature-box";
+@import "components/form";
+@import "components/popup";
+@import "components/story";
+
+@import "layout/footer";
+@import "layout/grid";
+@import "layout/header";
+@import "layout/navigation";
+
+@import "pages/home";
+
+//OBS: images are from the site unsplash. Its a nice trick to get big images and then dimish then so they keep their good resolution
+
+//OBS: its a good practice to set the width and height of parents and children using the same measure unity, so they grow and shrink proportionally.

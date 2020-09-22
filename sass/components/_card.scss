@@ -1,0 +1,180 @@
+/*
+
+OBS: In flex box, the default value for align-items is strech, causing the items to occupy all the space avaliable.
+Other values, like center or end, cause the items to occupy only the space of it's content. The fix to this is to define a width and/or a height to the items.
+With items that have absoluted positioned children, like the card, the problem is worse, because the card collapses due to the fact that it doesn't consider the dimension of its children.
+This way, its absoluted positioned children would also collapse, because their width is 100% of the parent.
+
+*/
+
+.card{
+    // This is just the container of the card sides
+
+    //OBS: perspective ONLY applies to CHILDREN elements. Thats why we have to define it in the PARENT.
+
+    //Perspective gives the element a 3d space. So when its animated, depending on the animation, you can see it moving with a 3d effect.
+
+    -moz-perspective: 100rem; //when animated, it looks like its comming toward you. 
+    perspective: 100rem; //the lower the value, the more dramatic is the animation
+    position: relative;
+    min-height: 50rem; //in order to have the perspective property, elements need a height and a width. As the children of this element are absolut positioned, the height collapses, thats why we need to specify it.
+
+    &__side{
+        border-radius: 3px;
+        overflow: hidden; //fix to the overlapping image problem. The image would oerlap the border-radius
+        box-shadow: 0 1.5rem 4rem rgba($color-black, .15);
+        font-size: 2rem;
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+        min-height: 50rem;
+        color: $color-white;
+        transition: all .8s ease;
+        backface-visibility: hidden; //When a element is rotated more than 90deg, it's back, a mirror image of the element, is visible. Backface-visibility: hidden; hides the element's back and all the elements that are positioned behind the element.
+
+        /*
+            Both card sides have backface-visibility: hidden, so, when they are rotate 180deg
+            and only their backs would be visible,they're NOT displayed. As one of then is always 
+            rotated, and therefore, invisible, it's not necessary to define z-indexes for them to be 
+            on and under each other. Though it would be if they hadn't had the backface-visibility: hidden property.
+        */
+
+        &--front{
+            background-color: $color-white;
+        }
+
+        &--back{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform: rotateY(-180deg);
+
+            &-1{
+                background-image:linear-gradient(to right bottom,$color-secondary-light,$color-secondary-dark);
+            }
+
+            &-2{
+                background-image:linear-gradient(to right bottom,$color-primary-light,$color-primary-dark);
+            }
+
+            &-3{
+                background-image:linear-gradient(to right bottom,$color-tertiary-light,$color-tertiary-dark);
+            }
+        }
+    }
+
+    &:hover &__side{ //defines that, when the card is hovered, the card__side will transform. The hover has to be on the card, because, if it were on the card__side, there would be problems when it rotates.
+        &--front{
+            transform: rotateY(180deg);
+        }
+
+        &--back{
+            transform: rotateY(0);
+        }
+    }
+
+    &__picture{
+        background-size: cover;
+        height: 23rem;
+        background-blend-mode: screen; //defines how the background-color will blend with backgorund-image
+        -webkit-clip-path:polygon(0 0,100% 0, 100% 85%,0 100%);
+        clip-path: polygon(0 0,100% 0, 100% 85%,0 100%);
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+
+        //its necessary to define the border radius here because the clip-path overwrites the overflow:hidden in some browsers.
+
+        /*
+            OBS: if there are more than one background-image, they just blend if a background-bled-mode
+            is set or if the one that is above has an opacity less than 1.
+        */
+
+        &--1{
+            background-image: linear-gradient(to right bottom,$color-secondary-light,$color-secondary-dark),url(../img/nat-5.jpg); //you have to consider that this code is on the main.css file, so to move up folders you have to imagine you're there.
+        }
+
+        &--2{
+            background-image: linear-gradient(to right bottom,$color-primary-light,$color-primary-dark),url(../img/nat-6.jpg); //you have to consider that this code is on the main.css file, so to move up folders you have to imagine you're there.
+        }
+
+        &--3{
+            background-image: linear-gradient(to right bottom,$color-tertiary-light,$color-tertiary-dark),url(../img/nat-7.jpg); //you have to consider that this code is on the main.css file, so to move up folders you have to imagine you're there.
+        }
+    }
+
+    &__heading{
+        font-weight: 300;
+        font-size: 2.8rem;
+        text-align: right;
+        text-transform: uppercase;
+        color: $color-white;
+        position: absolute;
+        top: 12rem;
+        right: 2rem;
+
+        
+    }
+
+    &__heading-span{
+        -webkit-box-decoration-break:clone;
+        box-decoration-break: clone; 
+        
+        //when there are '<br>' in the text, this defines how they should be.
+        //slice => just breaks the text, without applying paddings and borders to the different parts
+        //clone => applies the defined padding and border to each one of the parts, as if they were different blocks
+
+        padding: 1rem 1.5rem;
+        &--1{
+            background-image: linear-gradient(to right bottom, rgba($color-secondary-light,.85),rgba($color-secondary-dark,.85));
+        }
+
+        &--2{
+            background-image: linear-gradient(to right bottom, rgba($color-primary-light,.85),rgba($color-primary-dark,.85));   
+        }
+
+        &--3{
+            background-image: linear-gradient(to right bottom, rgba($color-tertiary-light,.85),rgba($color-tertiary-dark,.85));
+        }
+    }
+
+    &__details{
+
+        ul{
+            margin: 0 auto;
+            text-align: center;
+            list-style: none;
+            width:80%;
+
+            li{
+                padding: 1rem;
+                font-size: 1.5rem;
+                color: grey;
+                
+                &:not(:last-child){
+                    border-bottom: 1px solid $color-grey-light-2;
+                }
+            }
+        }
+    }
+
+    &__cta{
+        text-align: center;
+    }
+
+    &__price-box{
+        margin-bottom: 8rem;
+        color: $color-white;
+    }
+
+    &__price-only{
+        font-size: 1.4rem;
+        text-transform: uppercase;
+    }
+
+    &__price-value{
+        font-size: 6rem;
+        font-weight: 100;
+    }
+}

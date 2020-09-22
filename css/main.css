@@ -1,0 +1,1257 @@
+@charset "UTF-8";
+/*
+    Though floated elements interact with other elements, unlike absolute positioned elements,
+    their dimensions are also ignored by their parents. The clearfix must be defined on their
+    parent and it makes their parent reckognize their dimensions
+*/
+/*
+    Writing media querys as mixins makes you write less code, and if you have to change breakpoints
+    it's bette to change only one mixin than all of your files
+*/
+/*
+
+0 - 600px => Phone
+
+600px - 900px => Tablet portrait
+
+900px - 1200px => Tablet landscape
+
+1200px - 1800px => NORMAL STYLES
+
+1800 + => Big screens
+
+*/
+/*
+    $breakpoint argument choices:
+
+    - phone
+    - tab-port
+    - tab-land
+    - big-desktop
+
+*/
+/*
+    OBS:
+
+    The max-width 600px query applies to all devices tha have width inferior to 600px,
+    but The max-width 900px query applies to all devices tha have width inferior to 900px,
+    INCLUDING THE 600px OR LESS DEVICE.
+
+    THATS WHY YOU HAVE TO BE CAREFUL WITH THE ORDER OF MEDIA QUERIES:
+
+    The first one should be the larger and the last the smaller, in desktop first applications,
+    and the other way around in mobile first applications
+
+*/
+/*
+    In media queries, we should use a unit that is affected by changes in the default font-size.
+    It's better for responsive purposes.
+
+    In media queries both rem and em are not affect by the font-size set in the html tag, but by
+    the font-size of the browser, so they are the same.
+
+    As rems fail to work in some browsers, the best option is to use ems to define media queries
+
+    1em = 16px (default font size of the browser)
+
+*/
+/*
+    SUGESTION OF ORDER TO IMPLEMENT MEDIA QUERIES:
+
+    Base + Typography > General Layout + Grid > Page Layout > Components
+*/
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-10rem); }
+  80% {
+    transform: translateX(1rem); }
+  100% {
+    opacity: 1;
+    transform: translate(0); } }
+
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(10rem); }
+  80% {
+    transform: translateX(-1rem); }
+  100% {
+    opacity: 1;
+    transform: translate(0); } }
+
+@keyframes moveInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(3rem); }
+  100% {
+    opacity: 1;
+    transform: translate(0); } }
+
+html {
+  font-size: 62.5%;
+  /*
+        @include respond(phone){
+            font-size: 50%; 
+        }
+
+        It's not necessary to define the phone font-size, because it should be the same as the tab-port
+    */ }
+  @media (max-width: 75em) {
+    html {
+      font-size: 56.25%; } }
+  @media (max-width: 56.25em) {
+    html {
+      font-size: 50%; } }
+  @media (min-width: 112.5em) {
+    html {
+      font-size: 75%; } }
+
+input, button, textarea, a {
+  border: 0;
+  outline: 0;
+  box-sizing: border-box; }
+
+body {
+  box-sizing: border-box;
+  padding: 3rem; }
+  @media (max-width: 56.25em) {
+    body {
+      padding: 0; } }
+
+*, *::after, *::before {
+  outline: 0;
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit; }
+
+body {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  color: #777; }
+
+.heading-primary {
+  color: #fff;
+  text-transform: uppercase;
+  backface-visibility: hidden;
+  /* conserta a tremida da animação. Ninguém sabe porque isso funciona */
+  margin-bottom: 6rem; }
+  .heading-primary--main {
+    display: block;
+    font-size: 6rem;
+    font-weight: 400;
+    letter-spacing: 3.5rem;
+    animation-name: moveInLeft;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+    /* distribuição de velocidade */
+    /*
+        animation-delay: 3s; //delay
+        animation-iteration-count: infinite; //número de repetições
+        */ }
+    @media (max-width: 37.5em) {
+      .heading-primary--main {
+        font-size: 5rem;
+        letter-spacing: 1rem; } }
+  .heading-primary--sub {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 1.75rem;
+    animation: moveInRight 1s ease-out;
+    /* shortcut */
+    /*
+        animation-delay: 3s; //delay
+        animation-iteration-count: infinite; //número de repetições
+        */ }
+    @media (max-width: 37.5em) {
+      .heading-primary--sub {
+        letter-spacing: .5rem; } }
+
+.heading-secondary {
+  font-size: 3.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  background-image: linear-gradient(to right, #7ed56f, #28b485);
+  display: inline-block;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  letter-spacing: 2px;
+  transition: all .2s; }
+  @media (max-width: 56.25em) {
+    .heading-secondary {
+      font-size: 3rem; } }
+  @media (max-width: 37.5em) {
+    .heading-secondary {
+      font-size: 2.5rem; } }
+  .heading-secondary:hover {
+    transform: skewX(15deg) skewY(2deg) scale(1.1);
+    text-shadow: 0.5rem 1rem 2rem rgba(0, 0, 0, 0.2); }
+
+.heading-tertiary {
+  font-weight: 700;
+  font-size: 1.6rem;
+  text-transform: uppercase; }
+
+.paragraph {
+  font-size: 1.6rem; }
+  .paragraph:not(:last-child) {
+    margin-bottom: 3rem; }
+
+input, button, textarea, a {
+  font-family: inherit; }
+
+/*
+    OBS: It's usual to use '!important' in utility classes because they are supposed to override
+    every other css applied to the given element
+*/
+.u-width-100 {
+  width: 100% !important; }
+
+.u-center-text {
+  text-align: center !important; }
+
+.u-margin-bottom-huge {
+  margin-bottom: 12rem !important; }
+
+.u-margin-bottom-big {
+  margin-bottom: 8rem !important; }
+
+.u-margin-bottom-medium {
+  margin-bottom: 4rem !important; }
+
+.u-margin-bottom-small {
+  margin-bottom: 2rem !important; }
+
+.u-margin-top-huge {
+  margin-top: 12rem !important; }
+
+.u-margin-top-big {
+  margin-top: 8rem !important; }
+
+.u-margin-top-medium {
+  margin-top: 4rem !important; }
+
+.u-margin-top-small {
+  margin-top: 2rem !important; }
+
+.u-margin-left-huge {
+  margin-left: 12rem !important; }
+
+.u-margin-left-big {
+  margin-left: 8rem !important; }
+
+.u-margin-left-medium {
+  margin-left: 4rem !important; }
+
+.u-margin-left-small {
+  margin-left: 2rem !important; }
+
+.u-margin-right-huge {
+  margin-right: 12rem !important; }
+
+.u-margin-right-big {
+  margin-right: 8rem !important; }
+
+.u-margin-right-medium {
+  margin-right: 4rem !important; }
+
+.u-margin-right-small {
+  margin-right: 2rem !important; }
+
+.u-padding-small {
+  padding: 3rem !important; }
+
+.u-flex {
+  display: flex !important; }
+
+.u-justify-content-center {
+  justify-content: center !important; }
+
+.u-justify-content-space-around {
+  justify-content: space-around !important; }
+
+.u-justify-content-space-between {
+  justify-content: space-between !important; }
+
+.u-justify-content-space-evenly {
+  justify-content: space-evenly !important; }
+
+.u-justify-content-flex-end {
+  justify-content: flex-end !important; }
+
+.u-justify-content-flex-start {
+  justify-content: flex-start !important; }
+
+.u-align-items-center {
+  align-items: center !important; }
+
+.u-align-items-flex-start {
+  align-items: flex-start !important; }
+
+.u-align-items-flex-end {
+  align-items: flex-end !important; }
+
+.u-align-self-stretch {
+  align-self: stretch !important; }
+
+.u-flex-direction-column {
+  flex-direction: column !important; }
+
+.u-flex-direction-row {
+  flex-direction: row !important; }
+
+.background-video {
+  overflow: hidden;
+  opacity: .2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; }
+  .background-video__content {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: left top; }
+
+/*
+    Replaced elements: html elements that are out of the scope of css and can't be styled by normal means,
+    such as <img>, <video>, <iframe> and <embed>
+
+    object-fit:
+
+        The object-fit CSS property sets how the content of a replaced element should be resized to fit 
+        its container.
+
+        The &__content, for example, is resized. With the width set to 100%, as it is more wide then high,
+        it wouldn't cover the container. But it is resized to do so.
+
+        It only works if the elemento to which it applies has defined dimensions
+
+    object-position:
+        The object-position CSS property specifies the alignment of the selected replaced element's 
+        contents within the element's box.
+
+        It's like background-position, but for replaced elements
+*/
+.btn, .btn:link, .btn:visited {
+  /* estados inicial e após ser clicado. OBS: Funciona para <button> e <a> */
+  cursor: pointer;
+  position: relative;
+  font-size: 1.6rem;
+  text-decoration: none;
+  padding: 1.5rem 4rem;
+  text-transform: uppercase;
+  display: inline-block;
+  /* display inline não aceita padding top e bottom, nem transformações e block ocupa todo espaço disponivel. */
+  border-radius: 10rem;
+  transition: all .2s;
+  /* propriedades animadas e tempo de animação tem que ser definidos no estado inicial.
+        Assim, hover, active e outras pseudo-classes vão ser animadas. */ }
+
+.btn--white {
+  background-color: #fff;
+  color: #777; }
+  .btn--white::after {
+    background-color: #fff; }
+
+.btn--green {
+  background-color: #55c57a;
+  color: #fff; }
+  .btn--green::after {
+    background-color: #55c57a; }
+
+.btn:hover {
+  /* pseudo class => : classe 'adicionada' ao elemento quando uma ação é realizada */
+  transform: translateY(-0.3rem);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+  /* movimentação da sombra no eixo X, movimentação da sombra no eixo Y, shadowBlur, color */ }
+  .btn:hover::after {
+    transform: scale(1.4, 1.6);
+    opacity: 0; }
+
+.btn:active, .btn:focus {
+  transform: translateY(-0.1rem);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+  /* shadowX shadowY shadowBlur color */ }
+
+.btn::after {
+  /* pseudo element => :: elemento não escrito em html que se comporta como child do elemento a que se refere */
+  content: "";
+  width: 100%;
+  height: 100%;
+  border-radius: 10rem;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transition: all .4s; }
+
+.btn--animated {
+  animation: moveInBottom .5s ease-out .75s;
+  animation-fill-mode: backwards;
+  /* backwards: o estilo 0% é aplicado antes da animação começar */ }
+
+.btn-text:link, .btn-text:visited {
+  display: inline-block;
+  color: #55c57a;
+  text-decoration: none;
+  border-bottom: 1px solid #55c57a;
+  padding: 3px;
+  font-size: 1.6rem;
+  transition: all .15s; }
+
+.btn-text:active {
+  background-color: #55c57a;
+  color: #fff;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px); }
+
+.btn-text:hover {
+  background-color: #55c57a;
+  color: #fff;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px); }
+
+/*
+
+OBS: In flex box, the default value for align-items is strech, causing the items to occupy all the space avaliable.
+Other values, like center or end, cause the items to occupy only the space of it's content. The fix to this is to define a width and/or a height to the items.
+With items that have absoluted positioned children, like the card, the problem is worse, because the card collapses due to the fact that it doesn't consider the dimension of its children.
+This way, its absoluted positioned children would also collapse, because their width is 100% of the parent.
+
+*/
+.card {
+  -moz-perspective: 100rem;
+  perspective: 100rem;
+  position: relative;
+  min-height: 50rem; }
+  .card__side {
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
+    font-size: 2rem;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    min-height: 50rem;
+    color: #fff;
+    transition: all .8s ease;
+    backface-visibility: hidden;
+    /*
+            Both card sides have backface-visibility: hidden, so, when they are rotate 180deg
+            and only their backs would be visible,they're NOT displayed. As one of then is always 
+            rotated, and therefore, invisible, it's not necessary to define z-indexes for them to be 
+            on and under each other. Though it would be if they hadn't had the backface-visibility: hidden property.
+        */ }
+    .card__side--front {
+      background-color: #fff; }
+    .card__side--back {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transform: rotateY(-180deg); }
+      .card__side--back-1 {
+        background-image: linear-gradient(to right bottom, #ffb900, #ff7730); }
+      .card__side--back-2 {
+        background-image: linear-gradient(to right bottom, #7ed56f, #28b485); }
+      .card__side--back-3 {
+        background-image: linear-gradient(to right bottom, #2998ff, #5643fa); }
+  .card:hover .card__side--front {
+    transform: rotateY(180deg); }
+  .card:hover .card__side--back {
+    transform: rotateY(0); }
+  .card__picture {
+    background-size: cover;
+    height: 23rem;
+    background-blend-mode: screen;
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    /*
+            OBS: if there are more than one background-image, they just blend if a background-bled-mode
+            is set or if the one that is above has an opacity less than 1.
+        */ }
+    .card__picture--1 {
+      background-image: linear-gradient(to right bottom, #ffb900, #ff7730), url(../img/nat-5.jpg); }
+    .card__picture--2 {
+      background-image: linear-gradient(to right bottom, #7ed56f, #28b485), url(../img/nat-6.jpg); }
+    .card__picture--3 {
+      background-image: linear-gradient(to right bottom, #2998ff, #5643fa), url(../img/nat-7.jpg); }
+  .card__heading {
+    font-weight: 300;
+    font-size: 2.8rem;
+    text-align: right;
+    text-transform: uppercase;
+    color: #fff;
+    position: absolute;
+    top: 12rem;
+    right: 2rem; }
+  .card__heading-span {
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    padding: 1rem 1.5rem; }
+    .card__heading-span--1 {
+      background-image: linear-gradient(to right bottom, rgba(255, 185, 0, 0.85), rgba(255, 119, 48, 0.85)); }
+    .card__heading-span--2 {
+      background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.85), rgba(40, 180, 133, 0.85)); }
+    .card__heading-span--3 {
+      background-image: linear-gradient(to right bottom, rgba(41, 152, 255, 0.85), rgba(86, 67, 250, 0.85)); }
+  .card__details ul {
+    margin: 0 auto;
+    text-align: center;
+    list-style: none;
+    width: 80%; }
+    .card__details ul li {
+      padding: 1rem;
+      font-size: 1.5rem;
+      color: grey; }
+      .card__details ul li:not(:last-child) {
+        border-bottom: 1px solid #eeeeee; }
+  .card__cta {
+    text-align: center; }
+  .card__price-box {
+    margin-bottom: 8rem;
+    color: #fff; }
+  .card__price-only {
+    font-size: 1.4rem;
+    text-transform: uppercase; }
+  .card__price-value {
+    font-size: 6rem;
+    font-weight: 100; }
+
+.composition {
+  position: relative;
+  z-index: 10; }
+  .composition__photo {
+    transition: all .2s;
+    position: absolute;
+    outline-offset: 2rem;
+    width: 55%;
+    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.4);
+    border-radius: 2px; }
+    @media (max-width: 56.25em) {
+      .composition__photo {
+        width: 33.3333333%;
+        float: left;
+        position: relative; } }
+    .composition__photo--p1 {
+      top: -2rem;
+      left: 0; }
+      @media (max-width: 56.25em) {
+        .composition__photo--p1 {
+          left: 0;
+          top: 0;
+          transform: scale(1.2);
+          z-index: 10; } }
+    .composition__photo--p2 {
+      top: 2rem;
+      right: 0; }
+      @media (max-width: 56.25em) {
+        .composition__photo--p2 {
+          left: 0;
+          top: -1rem;
+          transform: scale(1.3);
+          z-index: 20; } }
+    .composition__photo--p3 {
+      top: 10rem;
+      left: 20%; }
+      @media (max-width: 56.25em) {
+        .composition__photo--p3 {
+          left: 0;
+          top: 1rem;
+          transform: scale(1.1);
+          z-index: 5; } }
+    .composition__photo:hover {
+      outline: 1.5rem solid #55c57a;
+      z-index: 30;
+      box-shadow: 0 2.5rem 4rem rgba(0, 0, 0, 0.5);
+      transform: scale(1.05) translateY(-0.5rem); }
+  .composition:hover .composition__photo:not(:hover) {
+    transform: scale(0.95); }
+
+/*
+    OBS: HOVER DOESN'T APPLY TO TOUCH DEVICES, SO IT'S NOT NECESSARY TO ADD QUERIES TO IT
+*/
+.feature-box {
+  background-color: rgba(255, 255, 255, 0.8);
+  font-size: 1.5rem;
+  padding: 2.5rem;
+  text-align: center;
+  border-radius: 3px;
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
+  transition: all .2s; }
+  @media (max-width: 56.25em) {
+    .feature-box {
+      padding: 2rem; } }
+  .feature-box__icon {
+    font-size: 6rem;
+    margin-bottom: .5rem;
+    display: inline-block;
+    background-image: linear-gradient(to right bottom, #7ed56f, #28b485);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent; }
+    @media (max-width: 56.25em) {
+      .feature-box__icon {
+        margin-bottom: 0; } }
+  .feature-box:hover {
+    transform: translateY(-1.5rem) scale(1.03); }
+
+.form {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  /*
+        :placeholder-shown fires if the placeholder is displayed
+        It's the initial state of the placeholder and it only vanishes when the content is written
+    */
+  /*
+        OBS: To use this strategy to customize radio buttons, it's important to define the 'for' attr
+        of the labels, so even when the radio-input is not displayed, it's possible to change it's state
+        by clicking the label
+    */ }
+  .form > *:not(:last-child) {
+    margin-bottom: 2rem; }
+  .form__input {
+    opacity: .6;
+    color: inherit;
+    padding: 1.5rem 2rem 1.2rem 2rem;
+    display: block;
+    border-radius: 2px;
+    border: none;
+    border-bottom: 3px solid transparent;
+    transition: all .2s; }
+    .form__input:focus {
+      box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+      border-bottom: 3px solid #55c57a; }
+      .form__input:focus:invalid {
+        border-bottom: 3px solid #ff7730; }
+    .form__input::-webkit-input-placeholder {
+      color: #777; }
+  .form__input:placeholder-shown + .form__label {
+    /*
+            &__input:placeholder-shown &__label does't work because this sintaxe whithout ~ or
+            + selects the children
+        */
+    opacity: 0;
+    transform: translateY(-4rem); }
+  .form__label {
+    margin: .7rem 0 0 2rem;
+    transition: all .3s; }
+  .form__group {
+    width: 100%;
+    display: flex;
+    flex-direction: column; }
+  .form__radio-group {
+    display: inline-block; }
+    .form__radio-group:not(:last-child) {
+      margin-right: 2rem; }
+    .form__radio-group * {
+      cursor: pointer; }
+  .form__radio-input {
+    display: none; }
+  .form__radio-label {
+    font-size: 1.6rem; }
+  .form__radio-input:checked + .form__radio-label .form__radio-button::after {
+    opacity: 1; }
+  .form__radio-button {
+    top: 0;
+    left: 0;
+    position: relative;
+    transform: translateY(25%);
+    display: inline-block;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 100rem;
+    color: #55c57a;
+    border: 0.5rem solid #55c57a; }
+    .form__radio-button::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 1.3rem;
+      height: 1.3rem;
+      transform: translate(-50%, -50%);
+      border-radius: 100rem;
+      background-color: #55c57a;
+      opacity: 0;
+      transition: all .3s; }
+
+.popup {
+  height: 100vh;
+  width: 100%;
+  z-index: 500;
+  padding: 0 4rem;
+  background-color: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all .5s;
+  opacity: 0;
+  visibility: hidden;
+  /*
+        Definir min-height para o container em vez de height para ele se adaptar às dimensões
+        de seu content não funciona por causa do fixed position.
+
+        Scrolling não funciona com fixed containers, então adicionei ao seu filho.
+    */ }
+  .popup:target {
+    visibility: visible;
+    opacity: 1; }
+  .popup__close-area {
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+    z-index: 600;
+    position: absolute;
+    top: 0;
+    left: 0; }
+  .popup__close-btn:link, .popup__close-btn:visited {
+    font-size: 2.7rem;
+    text-decoration: none;
+    color: #777;
+    position: absolute;
+    top: 2rem;
+    right: 3rem;
+    display: inline-block;
+    transition: all .4s; }
+  .popup__close-btn:hover {
+    color: #55c57a; }
+  .popup__content {
+    position: relative;
+    z-index: 700;
+    background-color: #fff;
+    width: 100%;
+    max-width: 900px;
+    max-height: 80%;
+    overflow-y: auto;
+    border-radius: 2px;
+    transform: scale(0.3);
+    opacity: 0;
+    transition: all .3s .2s; }
+  .popup:target .popup__content {
+    transform: scale(1);
+    opacity: 1; }
+  .popup__right {
+    padding: 2rem; }
+  .popup__img {
+    width: 100%;
+    height: 50%;
+    object-fit: cover;
+    display: block;
+    border-radius: 2px;
+    /*
+            Sometimes the images overlaps the border-radius of their container.
+            To fix that, you can set the same border-radius to the images or
+            the the overflow of the container to hidden. In this case, only the
+            first option is viable.
+        */
+    /*
+            The default display of imgs is inline, and inline elements have vertical-alignment
+            (how elements are set next to each other. Can be top, bottom, etc)
+
+            The default value of the vertical-align creates a space between the images.
+            It can be solved with bertical-align:bottom or display:block (block elements don't
+            have this problem).
+        */ }
+  .popup__text {
+    font-size: 1.4rem;
+    -moz-column-count: 2;
+    -moz-column-gap: 4rem;
+    -moz-column-rule: 1px solid #eeeeee;
+    column-count: 2;
+    column-gap: 4rem;
+    column-rule: 1px solid #eeeeee;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto; }
+
+/*
+    OBS: Children of a flex parent, as the cols that a children of the row, have, by default,
+    align-items set to stretch. That means they occupy all the space availiable.
+
+    If flexbox is not being used, it's possible to do that using display table.
+
+    You set the parent's display to table and the children's to table-cell.
+
+    They'll get side by side and have 100% of the parent's height. Besides that, it's posisble
+    to align them with vertical-align
+*/
+.story {
+  margin: 0 auto;
+  width: 75%;
+  padding: 6rem 6rem 6rem 9rem;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 3px;
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
+  font-size: 1.6rem;
+  transform: skew(-12deg); }
+  .story::after {
+    clear: both;
+    display: table;
+    content: ""; }
+  .story > * {
+    transform: skew(12deg); }
+  .story:hover .story__caption {
+    transform: translate(-50%, -50%);
+    opacity: 1; }
+  .story:hover .story__img {
+    transform: translateX(-15%) scale(1);
+    filter: blur(3px) brightness(80%); }
+  .story__shape {
+    transform: translateX(-3rem) skew(12deg);
+    width: 15rem;
+    height: 15rem;
+    background-color: orangered;
+    float: left;
+    -webkit-shape-outside: circle(50% at 50% 50%);
+    shape-outside: circle(50% at 50% 50%);
+    -webkit-clip-path: circle(50% at 50% 50%);
+    clip-path: circle(50% at 50% 50%);
+    position: relative;
+    overflow: hidden; }
+  .story__img {
+    height: 100%;
+    transform: translateX(-15%) scale(1.4);
+    transition: all .5s linear;
+    backface-visibility: hidden; }
+  .story__caption {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+    transform: translate(-50%, 20%);
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    color: white;
+    text-align: center;
+    transition: all .5s linear;
+    backface-visibility: hidden; }
+
+.footer {
+  background-color: #333;
+  padding: 10rem 4rem;
+  font-size: 1.6rem;
+  color: #f7f7f7; }
+  @media (max-width: 56.25em) {
+    .footer {
+      padding: 8rem 3rem; } }
+  .footer__logo-box {
+    text-align: center; }
+  .footer__logo {
+    width: 15rem; }
+  .footer__navigation, .footer__copyright {
+    display: inline-block;
+    border-top: 1px solid #f7f7f7;
+    padding-top: 2rem; }
+    @media (max-width: 56.25em) {
+      .footer__navigation, .footer__copyright {
+        width: 100%; } }
+  .footer__list {
+    text-align: center;
+    /*
+            Aligning text items as the links in this list with flex aligns does't work out properly, 
+            because tex-links dont have defined dimesions and, as they can't go to the line below
+            because of the flex direction, they end up overlapping the edge of their container
+
+            Text align in this cases works just fine
+        */
+    list-style: none; }
+  .footer__item {
+    display: inline-block;
+    text-align: center; }
+    .footer__item:not(:last-child) {
+      margin-right: 1.5rem; }
+  .footer__link:link, .footer__link:visited {
+    color: #f7f7f7;
+    display: inline-block;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all .1s;
+    background-color: #333; }
+  .footer__link:hover {
+    color: #55c57a;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3);
+    transform: skewY(4deg) scale(1.1); }
+
+/*
+    OBS:flex-basis defines the width if the flex direction is row and height if its column, 
+    so it doesn't work very well with flex direction column if the parent of the column has 
+    no defined height.
+
+    OBS: in order to use justify-content and align-items on a flex element whith values different 
+    from the default, they have to have, respectvely, a width and a height(it's the other way around
+    if the flex-direction is column). Otherwise, it won't work properly.
+*/
+.row {
+  display: flex;
+  margin: 0 auto;
+  max-width: 114rem;
+  width: 100%; }
+  @media (max-width: 56.25em) {
+    .row {
+      max-width: 50rem;
+      flex-direction: column; } }
+  .row:not(:last-child) {
+    margin-bottom: 8rem; }
+    @media (max-width: 56.25em) {
+      .row:not(:last-child) {
+        margin-bottom: 6rem; } }
+
+.row-fluid {
+  width: 100%;
+  display: flex;
+  margin: 0 auto; }
+  @media (max-width: 56.25em) {
+    .row-fluid {
+      flex-direction: column; } }
+  .row-fluid:not(:last-child) {
+    margin-bottom: 8rem; }
+    @media (max-width: 56.25em) {
+      .row-fluid:not(:last-child) {
+        margin-bottom: 6rem; } }
+
+/*
+
+    It's important to set the width of the .row and .row-fluid to 100% because, even though block elements have 
+    default width of 100%, if these classes are DIRECT children of flex elements, their width, if not set, will adjust 
+    to the content.
+
+*/
+.col {
+  flex-grow: 0;
+  flex-shrink: 1; }
+  .col:not(:last-child) {
+    margin-right: 6rem; }
+    @media (max-width: 56.25em) {
+      .col:not(:last-child) {
+        margin-bottom: 6rem;
+        margin-right: 0; } }
+  @media (max-width: 56.25em) {
+    .col {
+      width: 100% !important;
+      max-width: 100% !important; } }
+
+.col-100 {
+  width: 100%;
+  max-width: 100%; }
+
+.col-40 {
+  width: calc(2*(100% - 6rem)/5);
+  max-width: calc(2*(100% - 6rem)/5); }
+
+.col-60 {
+  width: calc(3*(100% - 6rem)/5);
+  max-width: calc(3*(100% - 6rem)/5); }
+
+.col-50 {
+  width: calc((100% - 6rem)/2);
+  max-width: calc((100% - 6rem)/2); }
+
+.col-33 {
+  width: calc((100% - 2 * 6rem)/3);
+  max-width: calc((100% - 2 * 6rem)/3); }
+
+.col-25 {
+  width: calc((100% - 3 * 6rem)/4);
+  max-width: calc((100% - 3 * 6rem)/4); }
+
+.col-66 {
+  width: calc((100% - 2 * 6rem)/3*2 + 6rem);
+  max-width: calc((100% - 2 * 6rem)/3*2 + 6rem); }
+
+.col-75 {
+  width: calc((100% - 3 * 6rem)/4*3 + 2 * 6rem);
+  max-width: calc((100% - 3 * 6rem)/4*3 + 2 * 6rem); }
+
+/*
+.row{
+    max-width: $grid-width;
+    margin: 0 auto; //centers block elements
+
+    @include clearfix;
+    
+    &:not(:last-child){ //selects every .row excepts the last-child .row of their parent
+        margin-bottom: $gutter-vertical;
+    }
+
+    [class^='col-']{ // selects all the elements that the class attribute (^= starts, *= contains, = is, $= ends) with 'col-'
+        float:left;
+
+        &:not(:last-child){
+            margin-right: $gutter-horizontal;
+        }
+    }
+
+    .col-1-of-2{
+        width: calc((100% - 6rem)/2);
+    }
+
+    .col-1-of-3{
+        width: calc((100% - 2 * 6rem)/3);
+    }
+
+    .col-1-of-4{
+        width: calc((100% - 3 * 6rem)/4);
+    }
+
+    .col-2-of-3{
+        width: calc((100% - 2 * 6rem)/3*2 + 6rem);
+    }
+
+    .col-2-of-4{
+        width: calc((100% - 3 * 6rem)/4*2 + 6rem);
+    }
+
+    .col-3-of-4{
+        width: calc((100% - 3 * 6rem)/4*3 + 2 * 6rem);
+    }
+}
+*/
+.header {
+  z-index: 10;
+  position: relative;
+  /* aceita valores como top e bottom, mas o elemento continua fazendo parte do layout */
+  height: 95vh;
+  background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.8), rgba(40, 180, 133, 0.8)), url(../img/hero.jpg);
+  background-size: cover;
+  background-position: top;
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); }
+  @media (max-width: 37.5em) {
+    .header {
+      -webkit-clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+      clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%); } }
+  .header__logo-box {
+    position: absolute;
+    /* aceita valores como top e bottom e o layout se comporta como se o elemento 
+        não exitisse. Se posiciona inicialmente em relação ao pai mais próximo que tem position diferente 
+        de static. É importante definir o top e left ao usar position absolute*/
+    top: 4rem;
+    left: 4rem; }
+  .header__logo {
+    height: 3.5rem; }
+  .header__text-box {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center; }
+
+.navigation {
+  /*
+        The icon is relative positioned is aligned in the center of the button by flex alignments
+        The before and after are absolute positioned referencing the icon
+    */ }
+  .navigation__checkbox {
+    display: none; }
+  .navigation__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 7rem;
+    height: 7rem;
+    border-radius: 50%;
+    position: fixed;
+    top: 6rem;
+    right: 6rem;
+    background-color: #fff;
+    z-index: 100;
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    /* The dimensions were designed to cover the background completely*/ }
+    @media (max-width: 56.25em) {
+      .navigation__button {
+        top: 3.7rem;
+        right: 3.7rem; } }
+    @media (max-width: 37.5em) {
+      .navigation__button {
+        top: 3rem;
+        right: 3rem; } }
+  .navigation__background {
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    position: fixed;
+    top: 6.5rem;
+    right: 6.5rem;
+    background-image: radial-gradient(#7ed56f, #28b485);
+    z-index: 50;
+    transition: all 1s; }
+    @media (max-width: 56.25em) {
+      .navigation__background {
+        top: 4.2rem;
+        right: 4.2rem; } }
+    @media (max-width: 37.5em) {
+      .navigation__background {
+        top: 3.5rem;
+        right: 3.5rem; } }
+  .navigation__nav {
+    height: 100vh;
+    width: 0%;
+    opacity: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 75;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.6s cubic-bezier(0.38, -0.2, 0.18, 1.47); }
+  .navigation__list {
+    list-style: none;
+    text-align: center; }
+  .navigation__item {
+    margin: 1rem; }
+  .navigation__link:link, .navigation__link:visited {
+    display: inline-block;
+    font-size: 3rem;
+    font-weight: 300;
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    background-image: linear-gradient(120deg, transparent 0% 50%, #fff 50%);
+    padding: 0.7rem 1.5rem;
+    transition: all .8s;
+    background-size: 300%;
+    background-position: 0%;
+    /*
+                backgroung-size:100% is the same as 'cover'. Increasing this value makes the background grow
+                but it's only visible in it's box limits, and decreasing it makes it repeat to cover the box
+            
+                It was necessary to increase it more than 100% (making it 200%) because of the 120deg rotation
+                This way, is completely vanishes at position 0% and covers 100% of the item at position 100%
+            */ }
+    .navigation__link:link:hover, .navigation__link:link:active, .navigation__link:visited:hover, .navigation__link:visited:active {
+      color: #55c57a;
+      background-position: 100%;
+      transform: translateX(1rem); }
+    .navigation__link:link span, .navigation__link:visited span {
+      display: inline-block;
+      margin-right: 1.5rem; }
+  .navigation__checkbox:checked ~ .navigation__background {
+    transform: scale(100); }
+  .navigation__checkbox:checked ~ .navigation__nav {
+    width: 100%;
+    opacity: 1; }
+  .navigation__icon {
+    position: relative;
+    transition: all .2s; }
+    .navigation__icon, .navigation__icon::before, .navigation__icon::after {
+      width: 3rem;
+      height: 1.6px;
+      background-color: #333;
+      display: inline-block; }
+    .navigation__icon::before, .navigation__icon::after {
+      content: "";
+      position: absolute;
+      transition: all .2s; }
+    .navigation__icon::before {
+      left: 0;
+      top: -.8rem; }
+    .navigation__icon::after {
+      left: 0;
+      top: .8rem; }
+  .navigation__button:hover .navigation__icon::before {
+    top: -1rem; }
+  .navigation__button:hover .navigation__icon::after {
+    top: 1rem; }
+  .navigation__checkbox:checked + .navigation__button .navigation__icon {
+    background-color: transparent; }
+    .navigation__checkbox:checked + .navigation__button .navigation__icon::before {
+      transform: rotate(135deg); }
+    .navigation__checkbox:checked + .navigation__button .navigation__icon::after {
+      transform: rotate(-135deg); }
+    .navigation__checkbox:checked + .navigation__button .navigation__icon::before, .navigation__checkbox:checked + .navigation__button .navigation__icon::after {
+      top: 0; }
+
+.section-about {
+  z-index: 5;
+  position: relative;
+  background-color: #f7f7f7;
+  padding: 25rem 4rem;
+  margin-top: -20vh; }
+  @media (max-width: 56.25em) {
+    .section-about {
+      padding: 20rem 3rem; } }
+
+.section-features {
+  z-index: 10;
+  position: relative;
+  padding: 20rem 4rem;
+  background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.8), rgba(40, 180, 133, 0.8)), url(../img/nat-4.jpg);
+  background-size: cover;
+  background-position: top;
+  transform: skewY(-7deg);
+  margin-top: -10rem; }
+  @media (max-width: 56.25em) {
+    .section-features {
+      padding: 15rem 3rem; } }
+  .section-features > * {
+    transform: skewY(7deg); }
+
+.section-tours {
+  z-index: 5;
+  position: relative;
+  padding: 35rem 4rem 20rem 4rem;
+  margin-top: -15rem;
+  background-color: #f7f7f7; }
+  @media (max-width: 56.25em) {
+    .section-tours {
+      padding: 30rem 3rem 15rem 3rem; } }
+
+.section-stories {
+  position: relative;
+  padding: 15rem 4rem; }
+  @media (max-width: 56.25em) {
+    .section-stories {
+      padding: 10rem 3rem; } }
+
+.section-book {
+  padding: 15rem 4rem;
+  background-image: linear-gradient(to right bottom, #7ed56f, #28b485); }
+  @media (max-width: 56.25em) {
+    .section-book {
+      padding: 10rem 3rem; } }
+
+.book {
+  border-radius: 3px;
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.3);
+  background-image: linear-gradient(110deg, rgba(255, 255, 255, 0.8) 0% 55%, transparent 55%), url("../img/nat-10.jpg");
+  background-size: cover;
+  min-height: 50rem; }
+  .book__form {
+    width: 50%;
+    height: 100%;
+    padding: 4rem; }
+
+/*
+    OBS: If more than one background image is defined, the first one will always be above the next, and 
+    so on.
+*/
+/*
+    A linear-gradient may have two or more colors. The first param is the direction. It can be passed
+    in deg or coordinates, like 'to right bottom'. The other params are the colors. Each color has a start
+    and end point. If not specified, these will be centered by default, and the colors will blend. These
+    points can be passed as percentages, specifying where the color will start or end. If the end point of
+    a color is exactly the same as the start point of the next color, they will not blend, as in the book
+    example above. If there is some space between the end point of a color and the start of the next, the
+    colors will blend in this space. If these points are not specified, the colors blend.
+    
+*/

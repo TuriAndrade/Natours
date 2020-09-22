@@ -1,0 +1,190 @@
+.navigation{
+
+    &__checkbox{
+        display: none;
+    }
+
+    &__button{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 7rem;
+        height: 7rem;
+        border-radius: 50%;
+        position: fixed;
+        top: 6rem;
+        right: 6rem;
+        background-color: $color-white;
+        z-index: 100;
+        box-shadow: 0 1rem 3rem rgba($color-black, .15);
+        cursor: pointer;
+        /* The dimensions were designed to cover the background completely*/
+
+        @include respond(tab-port){
+            top: 3.7rem;
+            right: 3.7rem;
+        }
+
+        @include respond(phone){
+            top: 3rem;
+            right: 3rem;
+        }
+    }
+
+    &__background{
+        width: 6rem;
+        height:6rem;
+        border-radius:50%;
+        position: fixed; //just like absolute, but doesn't change position on scroll. It also references the window or a positioned parent
+        top:6.5rem;
+        right:6.5rem;
+        background-image: radial-gradient($color-primary-light, $color-primary-dark);
+        z-index: 50;
+        transition: all 1s;
+        //radial gradiant is like a linear gradient, but it starts in the center e goes to the sides
+    
+        @include respond(tab-port){
+            top: 4.2rem;
+            right: 4.2rem;
+
+            //five more than the btn
+        }
+
+        @include respond(phone){
+            top: 3.5rem;
+            right: 3.5rem;
+        }
+    }
+
+    &__nav{
+        height: 100vh; //for some reason I have to define the width, though it should be a block element
+        width: 0%;
+        opacity: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 75;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all .6s cubic-bezier(.38,-0.2,.18,1.47); 
+    }
+
+    &__list{
+        list-style: none;
+        text-align: center;
+    }
+
+    &__item{
+        margin: 1rem;
+    }
+
+    &__link{
+        &:link,
+        &:visited{
+            display: inline-block; //<a/> are inline and transforms don't work well with inline elements
+            font-size: 3rem;
+            font-weight: 300;
+            color: $color-white;
+            text-decoration: none;
+            text-transform: uppercase;
+            background-image: linear-gradient(120deg, transparent 0% 50%, $color-white 50%);
+            padding: 0.7rem 1.5rem;
+            transition: all .8s;
+            background-size: 300%;
+            background-position: 0%;
+
+            /*
+                backgroung-size:100% is the same as 'cover'. Increasing this value makes the background grow
+                but it's only visible in it's box limits, and decreasing it makes it repeat to cover the box
+            
+                It was necessary to increase it more than 100% (making it 200%) because of the 120deg rotation
+                This way, is completely vanishes at position 0% and covers 100% of the item at position 100%
+            */
+            
+            &:hover,
+            &:active{
+                color: $color-primary;
+                background-position: 100%;
+                transform: translateX(1rem);
+            }
+
+            span{
+                display: inline-block;
+                margin-right: 1.5rem;
+            }
+        }
+    }
+
+    &__checkbox:checked ~ &__background{
+        transform: scale(100);
+    }
+
+    &__checkbox:checked ~ &__nav{
+        width: 100%;
+        opacity:1;
+    }
+
+    &__icon{
+        position: relative;
+        transition: all .2s;
+
+        &,
+        &::before,
+        &::after{
+            width: 3rem;
+            height: 1.6px;
+            background-color: $color-grey-dark-2;
+            display: inline-block; //span default display is inline, and it doesn't accepts dimensions
+        }
+
+        &::before,
+        &::after{
+            content: "";
+            position: absolute;
+            transition: all .2s;
+        }
+
+        &::before{
+            left: 0;
+            top: -.8rem;
+        }
+
+        &::after{
+            left: 0;
+            top: .8rem;
+        }
+
+    }
+
+    /*
+        The icon is relative positioned is aligned in the center of the button by flex alignments
+        The before and after are absolute positioned referencing the icon
+    */
+
+    &__button:hover &__icon::before{
+        top: -1rem;
+    }
+
+    &__button:hover &__icon::after{
+        top: 1rem;
+    }
+
+    &__checkbox:checked + &__button &__icon{
+        background-color: transparent; //changing the opacity also affects the ::before and ::after
+
+        &::before{
+            transform: rotate(135deg);
+        }
+
+        &::after{
+            transform: rotate(-135deg);
+        }
+
+        &::before,
+        &::after{
+            top: 0;
+        }
+
+    }
+}

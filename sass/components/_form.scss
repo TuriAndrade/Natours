@@ -1,0 +1,121 @@
+.form{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    & > *:not(:last-child){
+        margin-bottom: 2rem;
+    }
+
+    &__input{
+        opacity: .6;
+        color:inherit;
+        padding: 1.5rem 2rem 1.2rem 2rem; //3px is added as transparent border-bottom, so its necessary to take it out as padding-bottom
+        display: block;
+        border-radius: 2px;
+        border: none; 
+        border-bottom: 3px solid transparent; //transparent border set so the input doesn't push the elements below when border is added
+        transition: all .2s;
+
+        &:focus{ //activated when this input or it's label are clicked and it's focused
+            box-shadow: 0 1rem 2rem rgba($color-black, .1);
+            border-bottom: 3px solid $color-primary;
+
+            &:invalid{//fired when the input content is not valid(like an email without @)
+                border-bottom: 3px solid $color-secondary-dark;
+            }
+        }
+
+        &::-webkit-input-placeholder{
+            color:$color-grey-dark;
+        }
+    }
+
+    &__input:placeholder-shown + &__label{ // + selects ajdacent sibiling and ~ any sibiling. 
+
+        /*
+            &__input:placeholder-shown &__label does't work because this sintaxe whithout ~ or
+            + selects the children
+        */
+
+        opacity: 0; //it's invisible but it's still on the page
+        transform: translateY(-4rem);
+    }
+
+    /*
+        :placeholder-shown fires if the placeholder is displayed
+        It's the initial state of the placeholder and it only vanishes when the content is written
+    */
+
+    &__label{
+        margin: .7rem 0 0 2rem;
+        transition: all .3s;
+    }
+
+    &__group{
+        width: 100%; // it's necessary to define because the parent has align items set to center, making the width of it's children just fit the content
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__radio-group{
+        display: inline-block;
+
+        &:not(:last-child){
+            margin-right: 2rem;
+        }
+
+        & *{
+            cursor: pointer;
+        }
+    }
+
+    &__radio-input{
+        display: none;
+    }
+
+    /*
+        OBS: To use this strategy to customize radio buttons, it's important to define the 'for' attr
+        of the labels, so even when the radio-input is not displayed, it's possible to change it's state
+        by clicking the label
+    */
+
+    &__radio-label{
+        font-size: $default-font-size;
+    }
+
+    &__radio-input:checked + &__radio-label &__radio-button::after{
+        opacity:1;
+    }
+
+    //:checked is the state of a selected radio button
+
+    &__radio-button{
+        top: 0;
+        left: 0; 
+        position: relative; //The relative ppositioned element is offset relative to itself while the absolute positioned is offset relative to the closest positioned parent
+        transform: translateY(25%);
+        display: inline-block; //widths and heights don't work with inline elements, like the span that this button is
+        width: 3rem;
+        height: 3rem;
+        border-radius: 100rem;
+        color: $color-primary;
+        border: .5rem solid $color-primary;
+
+        &::after{
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 1.3rem;
+            height: 1.3rem;
+            transform: translate(-50%,-50%);
+            border-radius: 100rem;
+            background-color: $color-primary;
+            opacity: 0;
+            transition: all .3s; //the transition always goes to the element that is being animated
+        }
+    }
+}
